@@ -18,8 +18,8 @@ spec:
         - name: vprodb
           image: docker pull vprofile/vprofiledb:latest
           volumeMounts:
-            -mountPath: /var/lib/mysql
-            -name: pro-db-data
+            - mountPath: /var/lib/mysql
+              name: pro-db-data
           ports:
             - name: vprodb-port
               containerPort: 3306
@@ -34,7 +34,7 @@ spec:
     volumes:
     - name: vpro-db-data
       awsElasticBlockStore:
-        VolumeID: vol-0d68ccdd4c66cb2be
+        volumeID: vol-0d68ccdd4c66cb2be
         fsType: ext4
     
     initContainers:
