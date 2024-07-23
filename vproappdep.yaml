@@ -1,31 +1,30 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
-metadata: 'name:vproapp'
+metadata:
+  name: vpromc
+  labels:
+    app: vpromc
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: vproapp
+      app: vpromc
+  replicas: 1
   template:
     metadata:
       labels:
-        app: vproapp
-    spec:
-      containers:
-      - name: vproapp
-        image: vprofile/vprofileapp
-        ports:
-        - name: vproapp-port
-    initContainers:
-    - name: init-mydb
-      image: busybox
-      command:
-      - sh
-      - '-c'
-      - until nslookup vprodb; do echo waiting for mydb; sleep 2; done;
-    - name: init-memcache
-    image: busybox
-    command:
-    - sh
-    - '-c'
-    - until nslookup vprocache01; do echo waiting for mydb; sleep 2; done;
+        app: vpromc
+  spec:
+    containers:
+    - name: vpromc
+      image: memcached
+    ports:
+    - containerPort: 11211
+      name: vpromc-port
+    env:
+    - name: RABBITMQ_DEFAULT_PASS
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: rmq-pass
+    - name: RABBITMQ_DEFAULT_USER
+      value: guest

@@ -13,18 +13,18 @@ spec:
     metadata:
       labels:
         app: vpromc
-    spec:
-      containers:
-      - name: vpromc
-        image: memcached
-      ports:
-      - containerPort: 11211
-        name: vpromc-port
-      env:
-      - name: RABBITMQ_DEFAULT_PASS
-        valueFrom:
-          secretKeyRef:
-            name: app-secret
-            key: rmq-pass
-      - name: RABBITMQ_DEFAULT_USER
-        value: "guest"
+  spec:
+    containers:
+    - name: vpromc
+      image: memcached
+    ports:
+    - containerPort: 11211
+      name: vpromc-port
+    env:
+    - name: RABBITMQ_DEFAULT_PASS
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: rmq-pass
+    - name: RABBITMQ_DEFAULT_USER
+      value: guest
